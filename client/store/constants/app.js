@@ -1,0 +1,2 @@
+export const BLANK_ACTION = 'BLANK_ACTION';
+export const SET_TWITTER_USER = 'SET_TWITTER_USER';
