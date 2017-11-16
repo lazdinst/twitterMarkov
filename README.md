@@ -1,18 +1,10 @@
-# Basic React / Redux / Node Environment
-[![Build Status](https://travis-ci.org/lazdinst/cftaskmanager.svg?branch=master)](https://travis-ci.org/lazdinst/cftaskmanager)
-
-## Purpose
-Basic React / Redux / Node Environment
+# Twitter Markov Generator
+Built with React, Redux, Node, and Semantic UI
 
 # Installation
 ```javascript
-yarn
-yarn run build
-yarn run start
+npm
+npm run build
+npm run start
 ```
 http://localhost:8080/
-
-# Testing
-```javascript
-yarn test
-```
