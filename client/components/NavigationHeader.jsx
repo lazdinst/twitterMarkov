@@ -6,9 +6,6 @@ function NavigationHeader() {
     <div>
       <Menu fixed='top' inverted>
         <Container>
-          <Menu.Item as='a' header href='https://brandless.com/'>
-            <Icon name='twitter'/>
-          </Menu.Item>
           <Menu.Item as='a' href='https://www.google.com/search?q=Talis+Lazdins'>
             Talis Lazdins
           </Menu.Item>

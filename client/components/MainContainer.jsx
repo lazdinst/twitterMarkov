@@ -26,6 +26,7 @@ class MainContainer extends React.Component{
 
   handleClick(){
     let twitterUser = {user: this.state.twitterUser};
+    this.props.setTwitterUser(this.state.twitterUser);
     axios.post('/tweets', twitterUser)
       .then((tweets) => {
         console.log('(Client) Success: Retrieving Tweets from ', twitterUser);
@@ -63,10 +64,40 @@ class MainContainer extends React.Component{
     var tweetText = this.props.tweetText;
     var nGramOrder = this.props.nGramOrder;
     var nGrams = this.props.nGrams;
+    var tweets = this.props.tweets;
+    var randomIndex, randomBeginining, currentGram, result;
+    //Choose a Random Tweet
+
+
+    for( let i = 0; i < tweets.length; i++) {
+      randomIndex = Math.floor(Math.random() * tweets.length);
+      randomBeginining = tweets[randomIndex].split(' ')[0];   
+      if(nGrams[randomBeginining]) {
+        console.log(randomBeginining);
+        currentGram = randomBeginining;
+        result = currentGram;
+        break;
+      }
+      if( i === tweets.length - 1) {
+        currentGram = tweetText.substring(0, nGramOrder);
+        result = currentGram;
+      }
+    }
+
+    // var randomIndex = Math.floor(Math.random() * tweets.length);
+    // var randomBeginining = tweets[randomIndex].split(' ')[0];
+
+    // while(!nGrams[randomBeginining]) {
+    //   randomIndex = Math.floor(Math.random() * tweets.length);
+    //   randomBeginining = tweets[randomIndex].split(' ')[0];
+    // }
+
+    // var currentGram = randomBeginining;
+    // var result = currentGram;
 
     //TODO: Grab Random Word from text
-    var currentGram = tweetText.substring(0, nGramOrder);
-    var result = currentGram;
+    // var currentGram = tweetText.substring(0, nGramOrder);
+    // var result = currentGram;
 
     for(var i = 0; i < 240; i++) {
       var possibilities = nGrams[currentGram];
@@ -89,7 +120,7 @@ class MainContainer extends React.Component{
           <Button onClick={this.generateMarkov.bind(this)} content='Markov' />
         </Input>
         <Message floating hidden={!this.state.visibility}>
-          Retrieved Tweets from {this.props.twitterUser}!
+          Retrieved Tweets from @<strong>{this.props.twitterUser}</strong>!
         </Message>
         <Tweets />
       </Container>

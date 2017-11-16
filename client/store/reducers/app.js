@@ -8,7 +8,7 @@ const initialState = {
   markovs: [],
   nGrams: {},
   twitterUser: null,
-  nGramOrder: 3,
+  nGramOrder: 5,
   tweetText: ''
 };
 
