@@ -15,8 +15,8 @@ function NavigationHeader() {
           <Menu.Item as='a' href='https://github.com/lazdinst/'>
             <Icon name='github'/>
           </Menu.Item>
-          <Menu.Item as='a' href='https://drive.google.com/file/d/0B-jIfLD_IMykOV9SN09JdmRZZlk/view?usp=sharing' alt='Talis Lazdins Resume'>
-            <Icon name='address card outline'/>
+          <Menu.Item as='a' href='https://angel.co/talis-lazdins' alt='Angel List'>
+            <Icon name='angellist'/>
           </Menu.Item>          
         </Container>
       </Menu>

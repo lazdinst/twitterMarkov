@@ -37,6 +37,7 @@ class MainContainer extends React.Component{
         this.handleSuccessMessage();
       })
       .catch((err) => {
+        console.log('(Client) Failure: Retrieving Tweets from ', twitterUser);
         this.handleFailureMessage();
         console.log(err);
       });
@@ -57,13 +58,19 @@ class MainContainer extends React.Component{
     var nGramOrder = this.props.nGramOrder;
     var nGrams = {};
 
+    //Generate nGram Table with possible following characters
+    //Repeated character followings increase probability of the charater appearing
     for( let i = 0; i <= tweetText.length - nGramOrder; i++) {
       var gram = tweetText.substring(i, i + nGramOrder);
+      //If the nGram table does not contain the selected gram of length nGramOrder
+      //Add a property with key gram and set to empty array
       if (!nGrams[gram]) {
         nGrams[gram] = [];
       }
+      //Push character into array as a possibility
       nGrams[gram].push(tweetText.charAt(i + nGramOrder));
     }
+    //Add nGram Table to Redux Store
     this.props.setnGramTable(nGrams);
   }
 
@@ -74,30 +81,38 @@ class MainContainer extends React.Component{
     var tweets = this.props.tweets;
     var randomIndex, randomBeginining, currentGram, result;
 
+    //Randomly select a starting work from array of Tweets
     for( let i = 0; i < tweets.length; i++) {
       randomIndex = Math.floor(Math.random() * tweets.length);
       randomBeginining = tweets[randomIndex].split(' ')[0];   
       if(nGrams[randomBeginining]) {
-        console.log(randomBeginining);
         currentGram = randomBeginining;
         result = currentGram;
         break;
       }
+      //If tweets do have a starting word with length of nGramOrder
+      //Extract substring with length of order
       if( i === tweets.length - 1) {
         currentGram = tweetText.substring(0, nGramOrder);
         result = currentGram;
       }
     }
 
-    for(var i = 0; i < 240; i++) {
+    //Generate a Markov of length
+    var markovLength = 240;
+    for(var i = 0; i < markovLength; i++) {
+      //Refrence possible following characters
       var possibilities = nGrams[currentGram];
+      //Randomly Select a possible character
       randomIndex = Math.floor(Math.random() * possibilities.length);
+      //Add the selected Character to result
       var next = possibilities[randomIndex];
       result += next;
       var len = result.length;
       currentGram = result.substring(len - nGramOrder, len);
     }
-    console.log(result);
+
+    //Add result to Redux Store
     this.props.addNewMarkovTweet(result);
   }
 
