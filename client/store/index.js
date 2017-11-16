@@ -1,9 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-import { exportedState } from './reducers/app';
-const preloadedState = window.__PRELOADED_STATE__ || {};
-const initialState = preloadedState;
+//const preloadedState = window.__PRELOADED_STATE__ || {};
 
 const enhancers = [];
 const middleware = [thunk];
@@ -15,6 +13,6 @@ if (typeof devToolsExtension === 'function') {
 
 const composedEnhancers = compose( applyMiddleware(...middleware), ...enhancers);
 
-const store = createStore( reducers, initialState, composedEnhancers);
+const store = createStore( reducers, {}, composedEnhancers);
 
 export default store;

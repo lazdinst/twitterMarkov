@@ -40,7 +40,8 @@ app.post('/tweets', function (req, res, next) {
   var params = {screen_name: req.body.user};
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
    if (!error) {
-     res.send(tweets)
+     let data = tweets.map((tweet) => { return tweet.text});
+     res.send(data)
    }
   });
 });

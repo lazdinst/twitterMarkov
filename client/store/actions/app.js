@@ -2,36 +2,44 @@ import * as constants from '../constants/app';
 import axios from 'axios';
 import store from '../../store';
 
-export const getAPIData = () => {
-  return axios.get('/api/ROUTE_NAME')
-    .then(results => {
-      //Get some data from results
-      let data = results.data;
-      dispatch({
-        type: constants.BLANK_ACTION,
-        data: data,
-      });
-    });
-};
+export const setTwitterUser = twitterUser => {
+  return ({
+    type: constants.SET_TWITTER_USER,
+    twitterUser: twitterUser
+  });
+}
 
-export const postAPIData = (tasks, title) => {
-  return dispatch => {
-    return axios.post('/api/ROUTE_NAME', data)
-      .then(results => {
-        dispatch({
-          type: constants.BLANK_ACTION
-        });
-      })
-      .catch(()=>{
-        dispatch({
-          type: constants.BLANK_ACTION
-        });
-      });
-      
-  };
-};
+export const setTweetsByUser = tweets => {
+  return ({
+    type: constants.SET_TWEETS_FROM_USER,
+    tweets: tweets
+  });
+}
 
-export const handleTitleChange = (twitterUser) => ({
-  type: constants.SET_TWITTER_USER,
-  twitterUser: twitterUser
-});
+export const setTweetText = tweetText => {
+  return ({
+    type: constants.SET_TWEET_TEXT,
+    tweetText: tweetText
+  });
+}
+
+export const setnGramTable = nGrams => {
+  return ({
+    type: constants.SET_NGRAM_TABLE,
+    nGrams: nGrams
+  });
+}
+
+export const setnGramOrder = nGramOrder => {
+  return ({
+    type: constants.SET_NGRAM_ORDER,
+    nGramOrder: nGramOrder
+  });
+}
+
+export const addNewMarkovTweet = markov => {
+  return ({
+    type: constants.ADD_NEW_MARKOV_TWEET,
+    markov: markov
+  });
+}
