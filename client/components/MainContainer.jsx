@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { Container, Segment, Button, Input, Message } from 'semantic-ui-react';
 
-import { setTweetsByUser, setTwitterUser, setTweetText, setnGramTable, addNewMarkovTweet } from '../store/actions/app';
+import { setTweetsByUser, setTwitterUser, setTweetText, setnGramTable, addNewMarkovTweet, resetMarkovs } from '../store/actions/app';
 
 import Tweets from './Tweets.jsx';
 
@@ -14,7 +14,8 @@ class MainContainer extends React.Component{
     super(props);
     this.state = {
       twitterUser: 'realDonaldTrump',
-      visibility: false
+      successVisibility: false,
+      failureVisibility: false,
     };
   }
 
@@ -33,16 +34,22 @@ class MainContainer extends React.Component{
         this.props.setTweetsByUser(tweets.data);
         this.props.setTweetText(tweets.data.join(" "));
         this.generateNGrams();
-        this.handleMessage();
+        this.handleSuccessMessage();
       })
       .catch((err) => {
+        this.handleFailureMessage();
         console.log(err);
       });
   }
 
-  handleMessage() {
-    this.setState({visibility: true});
-    setTimeout(() => { this.setState({visibility: false});}, 3000);
+  handleSuccessMessage() {
+    this.setState({successVisibility: true});
+    setTimeout(() => { this.setState({successVisibility: false});}, 3000);
+  }
+
+  handleFailureMessage() {
+    this.setState({failureVisibility: true});
+    setTimeout(() => { this.setState({failureVisibility: false});}, 3000);
   }
 
   generateNGrams() {
@@ -66,8 +73,6 @@ class MainContainer extends React.Component{
     var nGrams = this.props.nGrams;
     var tweets = this.props.tweets;
     var randomIndex, randomBeginining, currentGram, result;
-    //Choose a Random Tweet
-
 
     for( let i = 0; i < tweets.length; i++) {
       randomIndex = Math.floor(Math.random() * tweets.length);
@@ -84,24 +89,9 @@ class MainContainer extends React.Component{
       }
     }
 
-    // var randomIndex = Math.floor(Math.random() * tweets.length);
-    // var randomBeginining = tweets[randomIndex].split(' ')[0];
-
-    // while(!nGrams[randomBeginining]) {
-    //   randomIndex = Math.floor(Math.random() * tweets.length);
-    //   randomBeginining = tweets[randomIndex].split(' ')[0];
-    // }
-
-    // var currentGram = randomBeginining;
-    // var result = currentGram;
-
-    //TODO: Grab Random Word from text
-    // var currentGram = tweetText.substring(0, nGramOrder);
-    // var result = currentGram;
-
     for(var i = 0; i < 240; i++) {
       var possibilities = nGrams[currentGram];
-      var randomIndex = Math.floor(Math.random() * possibilities.length);
+      randomIndex = Math.floor(Math.random() * possibilities.length);
       var next = possibilities[randomIndex];
       result += next;
       var len = result.length;
@@ -117,10 +107,14 @@ class MainContainer extends React.Component{
         <Input type='text' onChange={this.handleChange.bind(this)} placeholder='realDonaldTrump' >
           <input />
           <Button onClick={this.handleClick.bind(this)} icon='twitter'/>
-          <Button onClick={this.generateMarkov.bind(this)} content='Markov' />
+          <Button onClick={this.generateMarkov.bind(this)} content='Generate Markov' />
+          <Button onClick={this.props.resetMarkovs} icon='trash'/>
         </Input>
-        <Message floating hidden={!this.state.visibility}>
+        <Message floating success hidden={!this.state.successVisibility}>
           Retrieved Tweets from @<strong>{this.props.twitterUser}</strong>!
+        </Message>
+        <Message floating negative hidden={!this.state.failureVisibility}>
+          Opps! Twitter sent us an Error. Most likely that user doesn't exist.
         </Message>
         <Tweets />
       </Container>
@@ -142,7 +136,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   setTweetText,
   setTwitterUser,
   setnGramTable,
-  addNewMarkovTweet
+  addNewMarkovTweet,
+  resetMarkovs
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

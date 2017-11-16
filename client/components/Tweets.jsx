@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Segment, Button, Input } from 'semantic-ui-react';
+import { Container, Segment, Button, Input, Icon } from 'semantic-ui-react';
 import { getAPIData, handleChangeTwitterUser } from '../store/actions/app';
 import Tweet from './Tweet.jsx';
 
@@ -15,9 +15,13 @@ function Tweets(props) {
     );
   } else {
     return(
-      <Segment.Group>
-        <div>There are not yet any Markov Chains Stored...</div>
-      </Segment.Group>
+      <div style={{paddingTop: "1rem"}}>
+        <ul>
+          <li>Enter a Twitter Handle</li>
+          <li>Click <Icon name="twitter"/> retrieve Tweets</li>
+          <li>Click "Generate Markov" to watch the magic happen...</li>
+        </ul>
+      </div>
     );
   }
 }

@@ -43,3 +43,10 @@ export const addNewMarkovTweet = markov => {
     markov: markov
   });
 }
+
+export const resetMarkovs = markov => {
+  return ({
+    type: constants.RESET_MARKOVS,
+    markov: []
+  });
+}

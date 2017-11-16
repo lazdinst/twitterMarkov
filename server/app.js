@@ -41,7 +41,11 @@ app.post('/tweets', function (req, res, next) {
   client.get('statuses/user_timeline', params, function(error, tweets, response) {
    if (!error) {
      let data = tweets.map((tweet) => { return tweet.text});
+     res.status(200)
      res.send(data)
+   } else {
+    res.status(500)
+    res.end();
    }
   });
 });

@@ -47,6 +47,11 @@ export default (state = initialState, action) => {
       ...state,
       markovs: [...state.markovs, action.markov]
     };
+  case constants.RESET_MARKOVS:
+    return {
+      ...state,
+      markovs: []
+    };
   default:
     return state;
   }
